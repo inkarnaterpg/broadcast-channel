@@ -1,22 +1,46 @@
 {
-  "name": "broadcast-channel",
-  "version": "5.1.0",
+  "name": "@inkarnaterpg/broadcast-channel",
+  "version": "5.2.0",
   "description": "A BroadcastChannel that works in New Browsers, Old Browsers, WebWorkers and NodeJs and iframes",
   "exports": {
     ".": {
       "node": {
-        "types": "./types/index.d.ts",
-        "import": "./dist/esnode/index.js",
-        "default": "./dist/es5node/index.js"
+        "import": {
+          "type": "./types/index.d.ts",
+          "default": "./dist/esnode/index.js"
+        },
+        "require": {
+          "type": "./types/index.d.cts",
+          "default": "./dist/es5node/index.js"
+        }
       },
       "browser": {
-        "types": "./types/index.d.ts",
-        "import": "./dist/esbrowser/index.js",
-        "default": "./dist/lib/index.es5.js"
+        "import": {
+          "type": "./types/index.d.ts",
+          "default": "./dist/esbrowser/index.js"
+        },
+        "require": {
+          "type": "./types/index.d.cts",
+          "default": "./dist/lib/index.es5.js"
+        }
+      },
+      "default": {
+        "import": {
+          "type": "./types/index.d.ts",
+          "default": "./dist/esbrowser/index.js"
+        },
+        "require": {
+          "type": "./types/index.d.cts",
+          "default": "./dist/lib/index.es5.js"
+        }
       }
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist/",
+    "types/"
+  ],
   "homepage": "https://pubkey.github.io/broadcast-channel/",
   "keywords": [
     "broadcast-channel",
@@ -34,19 +58,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pubkey/broadcast-channel.git"
+    "url": "git+https://github.com/inkarnaterpg/broadcast-channel.git"
   },
   "author": "pubkey",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pubkey/broadcast-channel/issues"
-  },
-  "funding": "https://github.com/sponsors/pubkey",
-  "main": "./dist/es5node/index.js",
-  "module": "./dist/esnode/index.js",
-  "browser": "./dist/lib/index.es5.js",
-  "sideEffects": false,
-  "types": "./types/index.d.ts",
   "scripts": {
     "test": "echo \"RUN ALL:\" && npm run test:node && npm run test:browser && npm run test:e2e && npm run test:modules",
     "test:modules": "npm run test:module:esm && npm run test:module:cjs",
@@ -83,9 +98,6 @@
     "docs:only": "http-server ./docs --silent",
     "docs:serve": "npm run build && echo \"Open http://localhost:8080/\" && npm run docs:only"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "dependencies": {
     "@babel/runtime": "7.22.5",
     "oblivious-set": "1.1.1",
