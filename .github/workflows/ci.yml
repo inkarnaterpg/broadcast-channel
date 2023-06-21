@@ -19,21 +19,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.DESIRED_NODE_VERSION }}
-      - name: PNPM Install
-        run: npm install -g pnpm@${{ env.DESIRED_PNPM_VERSION }}
 
-      - uses: actions/cache@v3
-        id: pnpm-cache
-        with:
-          path: '/home/runner/.local/share/pnpm/store/v3'
-          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.lock') }}-${{ env.DESIRED_NODE_VERSION }}-${{ env.DESIRED_PNPM_VERSION }}
-
-      - name: Install pnpm dependencies
+      - name: Install npm dependencies
         run: |
-          pnpm install --production=false --frozen-lockfile
+          npm ci --production=false
 
       - name: Run build
-        run: pnpm run build
+        run: npm run build
 
       - uses: actions/setup-node@v3
         with:
@@ -42,7 +34,7 @@ jobs:
       # NOTE:
       # By default NPM access tokens expire after a year, and so these will need to be updated when the build starts to fail.
       - name: Publish
-        run: pnpm publish --access public
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
